@@ -1,0 +1,178 @@
+# Task Management System - MVC Project
+
+## Project Overview
+A simple task management system where users can create, view, update, and delete tasks with categories.
+
+## Database Schema
+
+### Table: `users`
+```sql
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Table: `categories`
+```sql
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    color VARCHAR(7) DEFAULT '#3498db',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Table: `tasks`
+```sql
+CREATE TABLE tasks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    category_id INT,
+    title VARCHAR(200) NOT NULL,
+    description TEXT,
+    status ENUM('pending', 'in_progress', 'completed') DEFAULT 'pending',
+    priority ENUM('low', 'medium', 'high') DEFAULT 'medium',
+    due_date DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+);
+```
+
+## Project Structure
+```
+task-manager/
+├── public/
+│   ├── index.php          # Front Controller
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── app.js
+├── app/
+│   ├── Controllers/
+│   │   ├── HomeController.php
+│   │   ├── TaskController.php
+│   │   ├── AuthController.php
+│   │   └── CategoryController.php
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Task.php
+│   │   └── Category.php
+│   ├── Views/
+│   │   ├── layouts/
+│   │   │   └── base.twig
+│   │   ├── home/
+│   │   │   └── index.twig
+│   │   ├── tasks/
+│   │   │   ├── index.twig
+│   │   │   ├── create.twig
+│   │   │   ├── edit.twig
+│   │   │   └── show.twig
+│   │   ├── auth/
+│   │   │   ├── login.twig
+│   │   │   └── register.twig
+│   │   └── categories/
+│   │       ├── index.twig
+│   │       └── create.twig
+│   └── Core/
+│       ├── Database.php
+│       ├── Router.php
+│       ├── Controller.php
+│       └── Model.php
+├── config/
+│   └── database.php
+├── vendor/              # Composer dependencies (Twig)
+├── composer.json
+└── .htaccess
+```
+
+## Product Backlog
+
+### Sprint 1: Core Setup
+- [x] Set up project structure
+- [x] Implement autoloader with Composer
+- [x] Create Database connection class
+- [x] Set up Front Controller (index.php)
+- [x] Implement Router class
+- [x] Integrate Twig template engine
+- [x] Create base Controller and Model classes
+
+### Sprint 2: Authentication
+- [ ] Create User model
+- [ ] Build registration functionality
+- [ ] Build login functionality
+- [ ] Implement session management
+- [ ] Create auth middleware
+- [ ] Design login/register views
+
+### Sprint 3: Task Management
+- [ ] Create Task model
+- [ ] Implement task CRUD operations:
+  - [ ] List all tasks
+  - [ ] Create new task
+  - [ ] View task details
+  - [ ] Edit task
+  - [ ] Delete task
+- [ ] Design task views (list, create, edit, show)
+
+### Sprint 4: Categories
+- [ ] Create Category model
+- [ ] Implement category CRUD
+- [ ] Add category filter to tasks
+- [ ] Design category views
+
+### Sprint 5: Advanced Features
+- [ ] Task status updates
+- [ ] Task priority management
+- [ ] Due date reminders
+- [ ] Search and filter tasks
+- [ ] Task statistics dashboard
+
+### Sprint 6: Polish
+- [ ] Add CSS styling
+- [ ] Implement form validation
+- [ ] Add error handling
+- [ ] Security improvements (CSRF protection)
+- [ ] Add pagination for tasks
+
+## Installation Steps
+
+1. **Install Composer dependencies:**
+```bash
+composer require twig/twig
+```
+
+2. **Configure database:**
+   - Update `config/database.php` with your credentials
+   - Import the SQL schema
+
+3. **Configure Apache:**
+   - Ensure mod_rewrite is enabled
+   - Point document root to `public/` folder
+
+4. **Access the application:**
+   - Navigate to `http://localhost/task-manager`
+
+## Key Features
+- User authentication (register/login)
+- CRUD operations for tasks
+- Task categorization
+- Task status tracking (pending, in progress, completed)
+- Priority levels (low, medium, high)
+- Due date management
+- Responsive design with Twig templates
+- Clean URL routing
+- PSR-4 autoloading
+
+## Technologies
+- PHP 7.4+
+- MySQL 5.7+
+- Twig 3.x
+- Composer
+- HTML5/CSS3
+- JavaScript (optional enhancements)
