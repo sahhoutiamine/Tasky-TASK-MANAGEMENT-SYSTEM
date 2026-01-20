@@ -14,5 +14,9 @@ class Database {
     private static $instance = null;
 
 
+    public function __construct(){
+        $this->connect();
+    }
+
     
 }
