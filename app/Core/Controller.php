@@ -21,4 +21,9 @@ class Controller {
         echo $this->twig->render($view, $data);
     }
 
+    protected function redirect($url) {
+        header("Location : $url");
+        exit;
+    }
+
 }
