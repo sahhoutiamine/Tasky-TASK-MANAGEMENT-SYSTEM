@@ -97,6 +97,7 @@ task-manager/
 - [x] Set up project structure
 - [x] Implement autoloader with Composer
 - [x] Create Database connection class
+
 - [x] Set up Front Controller (index.php)
 - [x] Implement Router class
 - [x] Integrate Twig template engine
