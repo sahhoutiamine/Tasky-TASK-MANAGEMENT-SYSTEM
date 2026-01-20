@@ -16,7 +16,23 @@ class Router {
 
     public function dispatch() {
         $method = $_SERVER["REQUEST_METHOD"];
-        $url = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+        $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+
+        if ($path != "/" && substr($path, -1) != "/") {
+            $path = rtrim($path, "/");
+        }
+        if(isset($this->routes[$method][$path])){
+            $callback = $this->routes[$method][$path];
+            if(is_array($callback)){
+                $controller = new $callback[0]();
+                $controllerMethod = $callback[1];
+
+                return $controller->$controllerMethod();
+            }
+            return call_user_func($callback);
+        }
+        http_response_code(404);
+        echo "ERROR 404";
     }
    
 }
