@@ -13,5 +13,10 @@ class Router {
      public function post($path, $callback) {
         $this->routes['POST'][$path] = $callback;
     }
+
+    public function dispatch() {
+        $method = $_SERVER["REQUEST_METHOD"];
+        $url = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+    }
    
 }
