@@ -17,4 +17,8 @@ class Controller {
         $this->twig->addGlobale('session', $_SESSION);
     }
 
+    protected function render($view, $data) {
+        echo $this->twig->render($viewm $data);
+    }
+
 }
