@@ -17,4 +17,9 @@ class User {
         $stmt = $db->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
         $stmt->execute([$data['username'], $data['email'], $data['password']]);
     }
+
+    public function login ($email, $pw) {
+        $stmt = $db->prepare("SELECT * FROM users WHERE  email = ? AND password = ?");
+        $user = $stmt->execute([$email, $pw]);
+    }
 }
